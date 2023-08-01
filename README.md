@@ -2,30 +2,30 @@
 
 ## Connect your AWS API Gateway to a private AppSync GraphQL endpoint using CDK
 
-## This CDK application deploys a private Appsync GraphQL API and integrates with AWS API Gateway for public access from the Internet using Private Link and VPC interface endpoints. In this way you need not expose the GraphQL endpoints directly on the Internet.  
+This CDK application deploys a private Appsync GraphQL API and integrates with AWS API Gateway for public access from the Internet using Private Link and VPC interface endpoints. In this way you need not expose the GraphQL endpoints directly on the Internet.  
 
 
 ## Architecture that you will be deploying: 
 
 ![Image](docs/AppSync-PrivateApi.jpg)
 
-## Architecture Setup
+### Architecture Setup
 
 There are two parts to this: 
 
-### 1. AWS AppSync Private API Setup
+#### 1. AWS AppSync Private API Setup
 
 - Create an AWS AppSync service with private api endpoint.
 - Create an AWS VPC with multiple private Subnets.
 - Create a PrivateLink to the AppSync endpoint ((appsync.<aws-region>.amazonaws.com)) and your VPC. To establish a private connection between your VPC and the AWS AppSync service, you must create an [interface VPC endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/vpce-interface.html). Interface endpoints are powered by AWS [PrivateLink](http://aws.amazon.com/privatelink), which enables you to privately access AWS AppSync APIs without an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection. Instances in your VPC don't need public IP addresses to communicate with AWS AppSync APIs. Traffic between your VPC and AWS AppSync doesn't leave the AWS network.
 - An internal NLB is created with Target Group of Target Type "ip" and add the targets IPs obtained from the VPC interface endpoints Elastic Network Interface.
 
-### 2. A REST API with AWS API Gateway with private integration to Internal NLB setup
+#### 2. A REST API with AWS API Gateway with private integration to Internal NLB setup
 
 - Create a private integration between the API Gateway and the internal Network Load Balancer in your VPC via VPC links. 
 - Create an API on API Gateway with a proxy resource connecting to the AppSync private API endpoint.
 
-# How this setup works? 
+## How this setup works? 
 
 - A user can access the public facing API Gateway from the Internet
 - API Gateway has a resource connected to an Internal Network Load Balancer(NLB) via VPC links
@@ -72,7 +72,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 1. Use the below Curl commands to test from your terminal
 
-   # Adding new records to DynamoDB
+   ### Adding new records to DynamoDB
 
    ```
    curl -v https://<unique-string>.execute-api.<aws-region>.amazonaws.com/prod/graphql \
@@ -88,7 +88,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
    -d '{"query":"mutation createDemo($createdemoinput: DemoInput!) {\n addDemo(input: $createdemoinput) {\n id\n version\n }\n}","variables":{"createdemoinput":{"version":"test 2"}}}'
    ```
 
-   # Query for the added records from the DynamoDb
+   ### Query for the added records from the DynamoDb
    ```
    curl -v https://<unique-string>.execute-api.<aws-region>.amazonaws.com/prod/graphql \
    -H "Content-Type:application/graphql" \
