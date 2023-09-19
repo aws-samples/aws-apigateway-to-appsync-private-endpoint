@@ -7,7 +7,7 @@ This CDK application deploys a private Appsync GraphQL API and integrates with A
 
 ## Architecture that you will be deploying: 
 
-![Image](docs/AppSync-PrivateApi.jpg)
+![Image](docs/AppSync-PrivateApi.png)
 
 ### Architecture Setup
 
