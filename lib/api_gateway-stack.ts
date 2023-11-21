@@ -111,10 +111,8 @@ export class ApigwStack extends Stack {
       port: 443,
       targets: ipAddresses.map((ip) => new IpTarget(ip)),
       healthCheck: {
-        path: "/graphql",
         port: "443",
-        protocol: Protocol.HTTPS,
-        healthyHttpCodes: "403",
+        protocol: Protocol.TCP,
       },
     });
 

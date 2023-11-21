@@ -61,7 +61,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
    ```
 1. From the command line, use AWS SAM to deploy the AWS resources for the pattern as specified in the template.yml file:
    ```
-   npx aws-cdk deploy
+   npx aws-cdk deploy --all
    ```
 
 ## Test the GraphQL Endpoint using the API Gateway URL
